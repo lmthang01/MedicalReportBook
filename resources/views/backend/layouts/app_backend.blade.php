@@ -17,6 +17,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('theme_admin/css/dashboard.css') }}" rel="stylesheet">
+    <style>
+        .nav-tab-profile .nav-item.active {
+            border-bottom: 1px solid #dedede;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,12 +38,15 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Hi - {{ Auth::user()->name ?? '[N/A]' }}</a>
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
         <div class="dropdown" style="margin-right: 10px;">
-            <button class="btn dropdown-toggle" style="background: none;color: white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{{ pare_url_file(Auth::user()->avatar) }}" onerror="this.src='https://static.vecteezy.com/system/resources/previews/020/168/700/original/faceless-male-silhouette-empty-state-avatar-icon-businessman-editable-404-not-found-persona-for-ux-ui-design-cartoon-profile-picture-with-red-dot-colorful-website-mobile-error-user-badge-vector.jpg';" style="width: 40px;height: 40px;border-radius: 50%" alt="">
+            <button class="btn dropdown-toggle" style="background: none;color: white" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <img src="{{ pare_url_file(Auth::user()->avatar) }}"
+                    onerror="this.src='https://static.vecteezy.com/system/resources/previews/020/168/700/original/faceless-male-silhouette-empty-state-avatar-icon-businessman-editable-404-not-found-persona-for-ux-ui-design-cartoon-profile-picture-with-red-dot-colorful-website-mobile-error-user-badge-vector.jpg';"
+                    style="width: 40px;height: 40px;border-radius: 50%" alt="">
             </button>
             <div class="dropdown-menu" style="left: unset;right: 10px" aria-labelledby="dropdownMenu2">
-                <a href="#" class="dropdown-item" title="Cập nhật thông tin">Cập nhật thông tin</a> 
-                {{-- {{ route('get_admin.profile.index') }} --}}
+                <a href="{{ route('get_admin.profile.index') }}" class="dropdown-item" title="Cập nhật thông tin">Cập
+                    nhật thông tin</a>
                 <a href="{{ route('get_admin.logout') }}" title="Đăng xuất" class="dropdown-item">Đăng xuất</a>
             </div>
         </div>
@@ -51,7 +59,8 @@
                     <ul class="nav flex-column">
                         @foreach (config('nav') as $item)
                             <li class="nav-item">
-                                <a class="nav-link {{ Request::route()->getName() === $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
+                                <a class="nav-link {{ Request::route()->getName() === $item['route'] ? 'active' : '' }}"
+                                    href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
                                     <span data-feather="{{ $item['icon'] }}"></span>
                                     {{ $item['name'] }}
                                 </a>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\LocationController;
+use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\StaffController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -75,6 +76,22 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
         Route::post('update/{id}', [UserController::class, 'update'])->name('get_admin.user.update');
 
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('get_admin.user.delete');
+    });
+
+    //Profile
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('', [ProfileController::class, 'index'])->name('get_admin.profile.index');
+        
+        Route::post('update/{id}',[ProfileController::class,'updateProfile'])->name('post_admin.profile.update');
+
+        Route::get('update-password',[ProfileController::class,'updatePassword'])->name('get_admin.profile.update_password');
+
+        Route::post('update-password/{id}',[ProfileController::class,'processUpdatePassword'])->name('post_admin.profile.update_password');
+
+        // // OTP update email
+        // Route::get('update-email',[ProfileController::class,'updateEmail'])->name('get_admin.profile.update_email');
+        // Route::post('update-email',[ProfileController::class,'processUpdateEmail']);
+        // Route::post('send-otp-email',[ProfileController::class,'sendOtpEmail']);
     });
 });
 
