@@ -32,7 +32,7 @@ class UserController extends Controller
             $users->where('status', $s);
 
         $users = $users->orderByDesc('id')
-                        ->paginate(20); // Phân trang 20 dòng
+                        ->paginate(5); // Phân trang 20 dòng
 
         $model = new User();
         $status = $model->getStatus();
@@ -42,7 +42,7 @@ class UserController extends Controller
             'status' => $status,
 
         ];
-        return view('backend.user.index', $viewData);
+        return view('backend.user.index', $viewData)->with('i', (request()->input('page', 1) -1) *5);
     }
 
     public function create()

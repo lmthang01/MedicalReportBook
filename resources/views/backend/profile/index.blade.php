@@ -30,11 +30,11 @@
                         <small id="emailHelp" class="form-text text-danger">{{ $errors->first('phone') }}</small>
                     @enderror
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="exampleInputEmail1">Địa chỉ</label>
                     <input type="text" name="address" placeholder="Cần Thơ" class="form-control"
                         value="{{ old('address', $user->address ?? '') }}" />
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label for="exampleInputPassword1">Hình ảnh</label>
                     <input type="file" class="form-control" name="avatar">

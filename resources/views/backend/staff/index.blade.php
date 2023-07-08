@@ -6,9 +6,20 @@
     </div>
     <form class="form-inline">
         <div class="form-group mb-2 mr-2">
-            <label for="inputPassword2" class="sr-only">Tìm tên</label>
+            <label for="" class="sr-only">Tìm tên</label>
             <input type="text" name="n" class="form-control" value="{{ Request::get('n') }}"
                 placeholder="Mã nhân viên, Tên ? ">
+        </div>
+
+        <div class="form-group mb-2 mr-2">
+            <label for="" class="sr-only">Phòng ban</label>
+            <select name="department" class="form-control" id="">
+                <option value="">-- Tìm phòng ban --</option>
+                @foreach ($departments ?? [] as $key => $item)
+                    <option value="{{ $item['id'] }}" {{ (Request::get('department') ?? '') == $item['id'] ? 'selected' : '' }}>
+                        {{ $item['name'] }}</option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
@@ -18,7 +29,7 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>STT</th>
                     <th>Avatar</th>
                     <th>Mã nhân viên</th>
                     <th>Tên</th>
@@ -31,7 +42,7 @@
             <tbody>
                 @foreach ($staffs ?? [] as $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+                        <td>{{++$i}}</td>
                         <td>
                             <img src="{{ pare_url_file($item->avatar) }}"
                                 style="width: 60px; height: 60px; border-radius: 10px" alt="">
@@ -58,8 +69,5 @@
             </tbody>
         </table>
     </div>
-    {{-- Phân trang --}}
-    {{-- <div class="pagination">
-        {{ $staffs->links() }}
-    </div>     --}}
+    {{ $staffs->links() }}
 @stop

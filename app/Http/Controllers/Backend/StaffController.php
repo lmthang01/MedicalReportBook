@@ -20,20 +20,31 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         $staffs = Staff::with('department:id,name', 'province:id,name', 'district:id,name', 'ward:id,name');
-
+        $departments = Department::all();
+        
         // Tìm bằng tên, mã nhân viên
         if ($name = $request->n)
             $staffs->where('name', 'like', '%' . $name . '%')
                 ->orWhere('staff_code', 'like', '%' . $name . '%');
 
+        // Tìm kiếm bằng trạng thái
+        if($s = $request->department)
+            $staffs->where('department_id', $s);
+
         $staffs = $staffs->orderByDesc('id')
-            ->paginate(20); // Phân trang 20 dòng
+                ->paginate(5); // Phân trang 5 thông tin
+        
+        // dd($request->all()); 
 
         $viewData = [
             'staffs' => $staffs,
-            'query' => $request->query(), // => Phân trang ??
+            'departments' => $departments,
+            // 'query' => $request->query(), // => Phân trang code123
         ];
-        return view('backend.staff.index', $viewData);
+        return view('backend.staff.index', $viewData)->with('i', (request()->input('page', 1) -1) *5);
+
+        // return view('backend.staff.index', compact('staffs'))->with('i', (request()->input('page', 1) -1) *5);
+
     }
 
     public function create()

@@ -20,12 +20,12 @@ class DepartmentController extends Controller
         if ($name = $request->n)
             $departments->where('name', 'like', '%' . $name . '%');
 
-        $departments = $departments->orderByDesc('id')->paginate(20); // Phân trang 20 dòng
+        $departments = $departments->orderByDesc('id')->paginate(5); // Phân trang 20 dòng
                 
         $viewData = [
-            'departments' => $departments
+            'departments' => $departments,
         ];
-        return view('backend.department.index', $viewData);
+        return view('backend.department.index', $viewData)->with('i', (request()->input('page', 1) -1) *5);
     }
 
     public function create()

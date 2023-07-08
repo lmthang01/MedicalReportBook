@@ -29,7 +29,7 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>STT</th>
                     <th>Avatar</th>
                     <th>Tên</th>
                     <th>Email</th>
@@ -43,10 +43,10 @@
             <tbody>
                 @foreach ($users ?? [] as $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+                        <td>{{ ++$i }}</td>
                         <td>
-                            <img src="{{ pare_url_file($item->avatar) }}" onerror="this.src='/assets/images/author/avatar.png'" style="width: 60px; height: 60px; border-radius: 10px" alt="avatar">
-                            {{-- <img src="{{ Chatify::getUserWithAvatar($item)->avatar }}" onerror="this.src='/assets/images/author/avatar.png'" style="width: 60px; height: 60px; border-radius: 10px" alt=""> --}}
+                            <img src="{{ pare_url_file($item->avatar) }}"
+                            style="width: 60px; height: 60px; border-radius: 10px" alt="">
                         </td>  
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->email }}</td>
@@ -74,4 +74,5 @@
             </tbody>
         </table>
     </div>
+    {{ $users->links() }}
 @stop
