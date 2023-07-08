@@ -4,12 +4,22 @@
         <h2>Quản lý phòng bang</h2>
         <a href="{{ route('get_admin.department.create') }}" class="btn btn-primary" style="color: azure;">Thêm mới</a>
     </div>
+    <form class="form-inline">
+        <div class="form-group mb-2 mr-2">
+            <label for="inputPassword2" class="sr-only">Tìm tên</label>
+            <input type="text" name="n" class="form-control" value="{{ Request::get('n') }}"
+                placeholder="Nhập tên phòng ban ?">
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+
+    </form>
     <div class="table-responsive">
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Avatar</th>
+                    {{-- <th>Avatar</th> --}}
                     <th>Tên</th>
                     <th>Mô tả</th>
                     <th>Ngày tạo</th>
@@ -21,10 +31,10 @@
                 @foreach ($departments ?? [] as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>
-                            {{-- <img src="{{ pare_url_file($item->avatar) }}"
-                                style="width: 60px; height: 60px; border-radius: 10px" alt=""> --}}
-                        </td>
+                        {{-- <td>
+                            <img src="{{ pare_url_file($item->avatar) }}"
+                                style="width: 60px; height: 60px; border-radius: 10px" alt="">
+                        </td> --}}
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
                         <td>{{ $item->created_at }}</td>

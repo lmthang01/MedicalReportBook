@@ -15,7 +15,7 @@
             <small id="" class="form-text text-danger">{{ $errors->first('description') }}</small>
         @enderror
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label for="exampleInputPassword1">Hình ảnh</label>
         <input type="file" class="form-control" name="avatar">
 
@@ -24,6 +24,6 @@
                 style="width: 60px; height: 60px; border-radius: 10px; margin-top: 10px" alt="">
         @endif
         
-    </div>
+    </div> --}}
     <button type="submit" class="btn btn-primary">Lưu dữ liệu</button>
 </form>

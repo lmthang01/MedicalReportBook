@@ -1,7 +1,7 @@
 @extends('backend.layouts.app_backend')
 @section('content')
 <div class="d-flex justify-content-between align-items-center">
-    <h2>Cập nhật</h2>
+    <h2>Cập nhật (Phòng ban)</h2>
     <a href="{{ route('get_admin.department.index') }}" class="btn btn-dark">Trở về</a>
 </div>
 

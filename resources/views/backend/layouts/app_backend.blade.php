@@ -20,14 +20,28 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Admin - {{ Auth::user()->name ?? '[N\A]' }}</a>
+    {{-- <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Hi - {{ Auth::user()->name ?? '[N\A]' }}</a>
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Đăng xuất</a>
+                <a class="nav-link" href="{{ route('get_admin.logout') }}">Đăng xuất</a>
             </li>
         </ul>
+    </nav> --}}
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Hi - {{ Auth::user()->name ?? '[N/A]' }}</a>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
+        <div class="dropdown" style="margin-right: 10px;">
+            <button class="btn dropdown-toggle" style="background: none;color: white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ pare_url_file(Auth::user()->avatar) }}" onerror="this.src='https://static.vecteezy.com/system/resources/previews/020/168/700/original/faceless-male-silhouette-empty-state-avatar-icon-businessman-editable-404-not-found-persona-for-ux-ui-design-cartoon-profile-picture-with-red-dot-colorful-website-mobile-error-user-badge-vector.jpg';" style="width: 40px;height: 40px;border-radius: 50%" alt="">
+            </button>
+            <div class="dropdown-menu" style="left: unset;right: 10px" aria-labelledby="dropdownMenu2">
+                <a href="#" class="dropdown-item" title="Cập nhật thông tin">Cập nhật thông tin</a> 
+                {{-- {{ route('get_admin.profile.index') }} --}}
+                <a href="{{ route('get_admin.logout') }}" title="Đăng xuất" class="dropdown-item">Đăng xuất</a>
+            </div>
+        </div>
     </nav>
 
     <div class="container-fluid">
@@ -37,12 +51,22 @@
                     <ul class="nav flex-column">
                         @foreach (config('nav') as $item)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
+                                <a class="nav-link {{ Request::route()->getName() === $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
                                     <span data-feather="{{ $item['icon'] }}"></span>
                                     {{ $item['name'] }}
                                 </a>
                             </li>
                         @endforeach
+
+                        {{-- @foreach (config('nav') as $item)
+                            <li class="nav-item {{ Request::route()->getName() === $item['route'] ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
+                                    <span data-feather="{{ $item['icon'] }}"></span>
+                                    {{ $item['name'] }}
+                                </a>
+                            </li>
+                        @endforeach --}}
+
 
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -185,6 +209,7 @@
             }
         });
 
+        // Nơi thường trú
         $(function() {
             $("#loadDistrict").change(function() {
                 console.log("------LOAD----------");
@@ -205,7 +230,7 @@
                     .done(function(data) {
                         console.log("------Data: ", data);
 
-                        let dataOptions = `<option value="">---Chọn quận huyện---</option>`;
+                        let dataOptions = `<option value="">Chọn</option>`;
                         data.map(function(index, key) {
                             dataOptions += `<option value=${index.id}>${index.name}</option>`
                         });
@@ -231,16 +256,69 @@
                     .done(function(data) {
                         console.log("------Data: ", data);
 
-                        let dataOptions = `<option value="">---Chọn phường xã---</option>`;
+                        let dataOptions = `<option value="">Chọn</option>`;
                         data.map(function(index, key) {
                             dataOptions += `<option value=${index.id}>${index.name}</option>`
                         });
                         $("#wardData").html(dataOptions);
                     });
             });
+
+            // Chổ ở hiện thoại
+            // $("#loadDistrict_current").change(function() {
+            //     console.log("------LOAD----------");
+            //     let province_id = $(this).find(":selected").val();
+            //     console.log("------province_id: ", province_id);
+
+            //     $.ajax({
+
+            //             url: "/admin/location/district",
+            //             data: {
+
+            //                 province_id: province_id
+            //             },
+            //             beforeSend: function(xhr) {
+            //                 // xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            //             }
+            //         })
+            //         .done(function(data) {
+            //             console.log("------Data: ", data);
+
+            //             let dataOptions = `<option value="">Chọn</option>`;
+            //             data.map(function(index, key) {
+            //                 dataOptions += `<option value=${index.id}>${index.name}</option>`
+            //             });
+            //             $("#districtsData_current").html(dataOptions);
+            //         });
+            // });
+
+            // $("#districtsData_current").change(function() {
+
+            //     let district_id = $(this).find(":selected").val();
+
+            //     $.ajax({
+
+            //             url: "/admin/location/ward",
+            //             data: {
+            //                 district_id: district_id
+            //             },
+            //             beforeSend: function(xhr) {
+            //                 // xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            //             }
+            //         })
+            //         .done(function(data) {
+            //             console.log("------Data: ", data);
+
+            //             let dataOptions = `<option value="">Chọn</option>`;
+            //             data.map(function(index, key) {
+            //                 dataOptions += `<option value=${index.id}>${index.name}</option>`
+            //             });
+            //             $("#wardData_current").html(dataOptions);
+            //         });
+            // });
         })
     </script>
-    
+
 </body>
 
 </html>

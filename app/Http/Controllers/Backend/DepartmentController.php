@@ -13,9 +13,15 @@ use Illuminate\Support\Str;
 
 class DepartmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::orderByDesc('id')->paginate(20); // Phân trang 20 dòng
+        $departments = Department::orderByDesc('id');
+
+        if ($name = $request->n)
+            $departments->where('name', 'like', '%' . $name . '%');
+
+        $departments = $departments->orderByDesc('id')->paginate(20); // Phân trang 20 dòng
+                
         $viewData = [
             'departments' => $departments
         ];

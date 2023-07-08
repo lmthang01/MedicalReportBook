@@ -39,3 +39,8 @@ Stt |   Tên Use-Case	        | Tên tác nhân chính	      | Mô tả Use-Case
 	|		                    |                             | 2. Người dùng kết xuất thống kê ra file
 8	|  Báo cáo phân loại        | Người dùng hệ thống	      | 1.Phân loại sức khỏe cho các năm theo dạng biểu đồ
     |           sức khỏe	    |                             | 2. Người dùng kết xuất thống kê ra file
+
+
+<option value="Nam" {{ ($staff->gender ?? '') == 'Nam' ? 'selected' : ''}}>Nam</option>
+                    <option value="Nữ" {{ ($staff->gender ?? '') == 'Nữ' ? 'selected' : ''}}>Nữ</option>
+                    <option value="Khác" {{ ($staff->gender ?? '') == 'Khác' ? 'selected' : ''}}>Khác</option>
