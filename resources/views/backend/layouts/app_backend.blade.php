@@ -25,6 +25,7 @@
 </head>
 
 <body>
+
     {{-- <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Hi - {{ Auth::user()->name ?? '[N\A]' }}</a>
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
@@ -36,7 +37,7 @@
     </nav> --}}
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Hi - {{ Auth::user()->name ?? '[N/A]' }}</a>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
+        {{-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> --}}
         <div class="dropdown" style="margin-right: 10px;">
             <button class="btn dropdown-toggle" style="background: none;color: white" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -161,26 +162,23 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-    <script>
+   
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+    {{-- <script>
         window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-    </script>
+    </script> --}}
     <script src="{{ asset('theme_admin/js/popper.min.js') }}"></script>
     <script src="{{ asset('theme_admin/js/bootstrap.min.js') }}"></script>
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace()
-    </script>
 
     <!-- Graphs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script> --}}
     {{-- <script>
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
@@ -210,7 +208,60 @@
             }
         });
     </script> --}}
-    <script>
+
+    {{-- Confirm delete --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script type="text/javascript">
+        $(function() {
+            $(document).on('click', '#delete_alert', function(e) {
+
+                e.preventDefault();
+
+                var link = $(this).attr("href");
+
+                // console.log(link);
+
+                Swal.fire({
+                    title: 'Bạn có chắc muốn xóa không ?',
+                    text: "Bạn không thể khôi phục lại dữ liệu sau khi xóa !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                       window.location.href = link;
+                       
+                    }
+                })
+
+            })
+        });
+        $('#alert_form_submit').submit(function(e){
+
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Bạn có muốn lưu dữ liệu không ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+        });
+    </script>
+
+
+
+    <script type="text/javascript">
         feather.replace();
         $.ajaxSetup({
             headers: {
@@ -218,6 +269,9 @@
             }
         });
 
+        $(document).ajaxStart(function() {
+            Pace.restart()
+        })
         // Nơi thường trú
         $(function() {
             $("#loadDistrict").change(function() {
@@ -325,9 +379,36 @@
             //             $("#wardData_current").html(dataOptions);
             //         });
             // });
+
+            // $(".js-delete-confirm").click(function(event) {
+
+            //     event.preventDefault();
+
+            //     let URL = $(this).attr('href');
+
+            //     console.log("Nhấn Delete");
+
+            //     $.confirm({
+            //         title: 'Bạn có muốn xóa dữ liệu không?',
+            //         content: 'Dữ liệu khi xóa đi sẽ không thể khôi phục !',
+            //         type: 'red',
+            //         buttons: {
+            //             ok: {
+            //                 text: "OK!",
+            //                 btnClass: 'btn-primary',
+            //                 keys: ['enter'],
+            //                 action: function() {
+            //                     window.location.href = URL;
+            //                 }
+            //             },
+            //             cancel: function() {
+
+            //             }
+            //         }
+            //     });
+            // });
         })
     </script>
-
 </body>
 
 </html>

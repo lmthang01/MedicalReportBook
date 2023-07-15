@@ -48,8 +48,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // Hiển thị Active, Type
-    const STATUS_DEFAULT = 1; // Chờ kích hoạt
 
     const STATUS_ACTIVE = 2;
 
@@ -61,18 +59,15 @@ class User extends Authenticatable
     const ROLE_USER = 'USER';
 
     protected $setStatus = [
-        self::STATUS_DEFAULT => [
-            'name' => 'Tạm dừng, chờ kích hoạt',
-            'class' => 'badge badge-info'
+        self::STATUS_ACTIVE => [
+            'name' => 'Hoạt động',
+            'class' => 'badge badge-primary'
         ],
         self::STATUS_CANCEL => [
             'name' => 'Khóa / Block',
             'class' => 'badge badge-danger'
         ],
-        self::STATUS_ACTIVE => [
-            'name' => 'Hoạt động',
-            'class' => 'badge badge-primary'
-        ],
+       
     ];
 
     // Hiển thị trạng thái ở view index

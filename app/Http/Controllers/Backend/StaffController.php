@@ -130,4 +130,6 @@ class StaffController extends Controller
         toastr()->success('Xóa thành công!', 'Thông báo', ['timeOut' => 2000]);
         return redirect()->route('get_admin.staff.index');
     }
+
+    
 }

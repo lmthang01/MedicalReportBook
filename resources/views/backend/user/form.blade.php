@@ -1,4 +1,4 @@
-<form method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+<form method="POST" action="" id="alert_form_submit" autocomplete="off" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-8">
             @csrf
@@ -11,17 +11,25 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Email <span style="color: red">*</span></label>
+                <label for="exampleInputEmail1">Email (Tài khoản) <span style="color: red">*</span></label>
                 <input type="text" name="email" placeholder="nva@gmail.com" class="form-control"
-                    value="{{ old('name', $user->email ?? '') }}">
+                    value="{{ old('email', $user->email ?? '') }}">
                 @error('email')
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('email') }}</small>
                 @enderror
             </div>
             <div class="form-group">
+                <label for="exampleInputEmail1">Mật khẩu <span style="color: red">*</span></label>
+                <input type="password" name="password" placeholder="********" class="form-control"
+                    value="{{ old('password', $user->password ?? '') }}">
+                @error('password')
+                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('password') }}</small>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">Số điện thoại <span style="color: red">*</span></label>
                 <input type="number" name="phone" placeholder="0869 . . . " class="form-control"
-                    value="{{ old('name', $user->phone ?? '') }}">
+                    value="{{ old('phone', $user->phone ?? '') }}">
                 @error('phone')
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('phone') }}</small>
                 @enderror
@@ -53,9 +61,8 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Trạng thái</label>
                 <select name="status" class="form-control" id="">
-                    <option value="-1" {{ ($user->status ?? -1) == -1 ? 'selected' : '' }}>Khóa / Block</option>
-                    <option value="1" {{ ($user->status ?? 1) == 1 ? 'selected' : '' }}>Tạm dừng, chờ kích hoạt</option>
-                    <option value="2" {{ ($user->status ?? 1) == 2 ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="2" {{ ($user->status ?? 2) == 2 ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="-1" {{ ($user->status ?? 2) == -1 ? 'selected' : '' }}>Khóa / Block</option>
                 </select>
             </div>
         </div>

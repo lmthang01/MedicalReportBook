@@ -35,8 +35,10 @@
                         <td>
                             <a href="{{ route('get_admin.department.update', $item->id) }}" class="btn btn-info"
                                 style="padding: 5px">Edit</a>
-                            <a href="{{ route('get_admin.department.delete', $item->id) }}" class="btn btn-danger"
-                                style="padding: 5px">Delete</a>
+                            <a href="{{ route('get_admin.department.delete', $item->id) }}" class="js-delete-confirm btn btn-danger"
+                                style="padding: 5px" id="delete_alert">Delete</a>
+
+                                
                         </td>
                     </tr>
                 @endforeach
@@ -45,3 +47,5 @@
     </div>
     {{ $departments->links() }}
 @stop
+
+

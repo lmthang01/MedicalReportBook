@@ -83,6 +83,8 @@ class DepartmentController extends Controller
         return redirect()->route('get_admin.department.index');
     }
 
+
+
     public function delete(Request $request, $id)
     {
         try {
@@ -93,6 +95,7 @@ class DepartmentController extends Controller
             Log::error("ERROR => DepartmentController@delete => " . $exception->getMessage());
         }
         toastr()->success('Xóa thành công!', 'Thông báo', ['timeOut' => 2000]);
-        return redirect()->route('get_admin.department.index');
+        return redirect()->route('get_admin.department.index'); 
     }
+
 }

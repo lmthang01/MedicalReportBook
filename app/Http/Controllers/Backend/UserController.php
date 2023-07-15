@@ -57,7 +57,7 @@ class UserController extends Controller
 
             $data = $request->except('_token', 'avatar', 'user_type');
             $data['created_at'] = Carbon::now();
-            $data['password'] = bcrypt(Carbon::now()); // Mã hóa password, vì tạo trường password không được để trống bên databases
+            $data['password'] = bcrypt($request->password);
             $data['status'] = $request->status ?? 1;
             $data['email_verified_at'] = Carbon::now();
 
@@ -116,10 +116,14 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $userHasType = UserHasType::findOrFail($id);
+        $user = User::findOrFail($id);
 
         $usersType = UserType::all();
-        $user = User::findOrFail($id);
+
+        $userHasType = UserHasType::findOrFail($id);
+
+        // $userHasType = UserHasType::all();
+
         return view('backend.user.update', compact('user', 'usersType', 'userHasType'));
     }
 

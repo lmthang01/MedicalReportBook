@@ -25,9 +25,10 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
+            toastr()->success('Đăng nhập thành công!', 'Thông báo', ['timeOut' => 1000]);
             return redirect()->route('get_admin.home');
         }
-
+        toastr()->error('Sai tên tài khoản hoặc mật khẩu', 'Thông báo', ['timeOut' => 1000]);
         return redirect()->back();
     }
 

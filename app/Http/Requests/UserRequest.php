@@ -24,7 +24,8 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|unique:users,email,' .$this->id,
-            'phone' => 'required'
+            'phone' => 'required',
+            'password' => 'required',
         ];
     }
 
@@ -35,6 +36,7 @@ class UserRequest extends FormRequest
             'email.unique' => 'Email đã tồn tại!',
             'email.required' => 'Email không được để trống!',
             'phone.required' => 'Số điện thoại không được để trống!',
+            'password.required' => 'Mật khẩu không được để trống!',
         ];
     }
 }

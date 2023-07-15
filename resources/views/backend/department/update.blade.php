@@ -10,5 +10,4 @@
         @include('backend.department.form')
     </div>
 </div>
-
 @stop
