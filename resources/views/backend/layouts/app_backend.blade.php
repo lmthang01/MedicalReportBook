@@ -68,15 +68,6 @@
                             </li>
                         @endforeach
 
-                        {{-- @foreach (config('nav') as $item)
-                            <li class="nav-item {{ Request::route()->getName() === $item['route'] ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route($item['route']) }}" title="{{ $item['name'] }}">
-                                    <span data-feather="{{ $item['icon'] }}"></span>
-                                    {{ $item['name'] }}
-                                </a>
-                            </li>
-                        @endforeach --}}
-
 
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -163,7 +154,7 @@
     </div>
 
 
-   
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -171,6 +162,7 @@
     {{-- <script>
         window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
     </script> --}}
+
     <script src="{{ asset('theme_admin/js/popper.min.js') }}"></script>
     <script src="{{ asset('theme_admin/js/bootstrap.min.js') }}"></script>
 
@@ -212,7 +204,8 @@
     {{-- Confirm delete --}}
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
+
     <script type="text/javascript">
         $(function() {
             $(document).on('click', '#delete_alert', function(e) {
@@ -233,33 +226,31 @@
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                       window.location.href = link;
-                       
+                        window.location.href = link;
+
                     }
                 })
 
             })
         });
-        $('#alert_form_submit').submit(function(e){
+        $('#alert_form_submit').submit(function(e) {
 
-                e.preventDefault();
+            e.preventDefault();
 
-                Swal.fire({
-                    title: 'Bạn có muốn lưu dữ liệu không ?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                })
+            Swal.fire({
+                title: 'Bạn có muốn lưu dữ liệu không ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
         });
     </script>
-
-
 
     <script type="text/javascript">
         feather.replace();
@@ -268,13 +259,59 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        $(document).ajaxStart(function() {
-            Pace.restart()
-        })
         // Nơi thường trú
         $(function() {
-            $("#loadDistrict").change(function() {
+            $("#loadDistrict_residence").change(function() {
+
+                console.log("------LOAD----------");
+                let province_id = $(this).find(":selected").val();
+                console.log("------province_id: ", province_id);
+
+                $.ajax({
+                        url: "/admin/location/district",
+                        data: {
+                            province_id: province_id
+                        },
+                        beforeSend: function(xhr) {}
+                    })
+                    .done(function(data) {
+
+                        console.log("------Data: ", data);
+
+                        let dataOptions = `<option value="">Chọn</option>`;
+                        data.map(function(index, key) {
+                            dataOptions += `<option value=${index.id}>${index.name}</option>`
+                        });
+                        $("#districtsData_residence").html(dataOptions);
+                    });
+            });
+
+            $("#districtsData_residence").change(function() {
+
+                let district_id = $(this).find(":selected").val();
+
+                $.ajax({
+                        url: "/admin/location/ward",
+                        data: {
+                            district_id: district_id
+                        },
+                        beforeSend: function(xhr) {}
+                    })
+                    .done(function(data) {
+                        console.log("------Data: ", data);
+
+                        let dataOptions = `<option value="">Chọn</option>`;
+                        data.map(function(index, key) {
+                            dataOptions += `<option value=${index.id}>${index.name}</option>`
+                        });
+
+                        $("#wardData_residence").html(dataOptions);
+
+                    });
+            });
+
+            // Chổ ở hiện thoại
+            $("#loadDistrict_current").change(function() {
                 console.log("------LOAD----------");
                 let province_id = $(this).find(":selected").val();
                 console.log("------province_id: ", province_id);
@@ -297,11 +334,11 @@
                         data.map(function(index, key) {
                             dataOptions += `<option value=${index.id}>${index.name}</option>`
                         });
-                        $("#districtsData").html(dataOptions);
+                        $("#districtsData_current").html(dataOptions);
                     });
             });
 
-            $("#districtsData").change(function() {
+            $("#districtsData_current").change(function() {
 
                 let district_id = $(this).find(":selected").val();
 
@@ -309,7 +346,6 @@
 
                         url: "/admin/location/ward",
                         data: {
-
                             district_id: district_id
                         },
                         beforeSend: function(xhr) {
@@ -323,90 +359,9 @@
                         data.map(function(index, key) {
                             dataOptions += `<option value=${index.id}>${index.name}</option>`
                         });
-                        $("#wardData").html(dataOptions);
+                        $("#wardData_current").html(dataOptions);
                     });
             });
-
-            // Chổ ở hiện thoại
-            // $("#loadDistrict_current").change(function() {
-            //     console.log("------LOAD----------");
-            //     let province_id = $(this).find(":selected").val();
-            //     console.log("------province_id: ", province_id);
-
-            //     $.ajax({
-
-            //             url: "/admin/location/district",
-            //             data: {
-
-            //                 province_id: province_id
-            //             },
-            //             beforeSend: function(xhr) {
-            //                 // xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            //             }
-            //         })
-            //         .done(function(data) {
-            //             console.log("------Data: ", data);
-
-            //             let dataOptions = `<option value="">Chọn</option>`;
-            //             data.map(function(index, key) {
-            //                 dataOptions += `<option value=${index.id}>${index.name}</option>`
-            //             });
-            //             $("#districtsData_current").html(dataOptions);
-            //         });
-            // });
-
-            // $("#districtsData_current").change(function() {
-
-            //     let district_id = $(this).find(":selected").val();
-
-            //     $.ajax({
-
-            //             url: "/admin/location/ward",
-            //             data: {
-            //                 district_id: district_id
-            //             },
-            //             beforeSend: function(xhr) {
-            //                 // xhr.overrideMimeType("text/plain; charset=x-user-defined");
-            //             }
-            //         })
-            //         .done(function(data) {
-            //             console.log("------Data: ", data);
-
-            //             let dataOptions = `<option value="">Chọn</option>`;
-            //             data.map(function(index, key) {
-            //                 dataOptions += `<option value=${index.id}>${index.name}</option>`
-            //             });
-            //             $("#wardData_current").html(dataOptions);
-            //         });
-            // });
-
-            // $(".js-delete-confirm").click(function(event) {
-
-            //     event.preventDefault();
-
-            //     let URL = $(this).attr('href');
-
-            //     console.log("Nhấn Delete");
-
-            //     $.confirm({
-            //         title: 'Bạn có muốn xóa dữ liệu không?',
-            //         content: 'Dữ liệu khi xóa đi sẽ không thể khôi phục !',
-            //         type: 'red',
-            //         buttons: {
-            //             ok: {
-            //                 text: "OK!",
-            //                 btnClass: 'btn-primary',
-            //                 keys: ['enter'],
-            //                 action: function() {
-            //                     window.location.href = URL;
-            //                 }
-            //             },
-            //             cancel: function() {
-
-            //             }
-            //         }
-            //     });
-            // });
         })
     </script>
 </body>

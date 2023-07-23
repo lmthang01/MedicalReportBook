@@ -8,7 +8,7 @@
         <div class="form-group mb-2 mr-2">
             <label for="" class="sr-only">Tìm tên</label>
             <input type="text" name="n" class="form-control" value="{{ Request::get('n') }}"
-                placeholder="Mã nhân viên, Tên ? ">
+                placeholder="Tên nhân viên ? ">
         </div>
 
         <div class="form-group mb-2 mr-2">
@@ -31,11 +31,14 @@
                 <tr>
                     <th>STT</th>
                     <th>Avatar</th>
-                    <th>Mã nhân viên</th>
-                    <th>Tên</th>
+                    {{-- <th>Mã nhân viên</th> --}}
+                    <th>Họ và Tên</th>
+                    <th>Chức vụ</th>
+                    <th>CCCD</th>
                     <th>Phòng ban</th>
-                    <th>Hộ khẩu thường trú</th>
-                    <th>Ngày sinh</th>
+                    <th>Số điện thoại</th>
+                    {{-- <th>Hộ khẩu thường trú</th> --}}
+                    {{-- <th>Ngày sinh</th> --}}
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -47,17 +50,21 @@
                             <img src="{{ pare_url_file($item->avatar) }}"
                                 style="width: 60px; height: 60px; border-radius: 10px" alt="">
                         </td>
-                        <td>{{ $item->staff_code }}</td>
+                        {{-- <td>{{ $item->staff_code }}</td> --}}
                         <td>{{ $item->name }}</td>
+                        <td>{{ $item->position }}</td>
+                        <td>{{ $item->identity_number }}</td>
                         <td>{{ $item->department->name ?? '[N\A]' }}</td>
-                        <td>
+                        <td>{{ $item->phone }}</td>
+
+                        {{-- <td>
                             <span> {{ $item->province->name ?? '...' }} -
                                 {{ $item->district->name ?? '...' }} -
                                 {{ $item->ward->name ?? '...' }}</span>
-                            {{-- <br> --}}
-                            {{-- {{ $item->address }} --}}
-                        </td>
-                        <td>{{ $item->birth_date }}</td>
+                            <br>
+                            {{ $item->address }}
+                        </td> --}}
+                        {{-- <td>{{ $item->birth_date }}</td> --}}
                         <td>
                             <a href="{{ route('get_admin.staff.update', $item->id) }}" class="btn btn-info"
                                 style="padding: 5px">Edit</a>

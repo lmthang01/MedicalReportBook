@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\DepartmentRequest;
 use App\Http\Requests\StaffRequest;
 use App\Models\Department;
+use App\Models\PersonalHistory;
 use App\Models\Province;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +32,7 @@ class StaffController extends Controller
             $staffs->where('department_id', $s);
 
         $staffs = $staffs->orderByDesc('id')
-                ->paginate(5); // Phân trang 5 thông tin
+                ->paginate(10); // Phân trang 5 thông tin
         
         // dd($request->all()); 
 
@@ -82,14 +82,26 @@ class StaffController extends Controller
     public function edit($id)
     {
         $departments = Department::all();
+
         $staff = Staff::findOrFail($id);
+
         $provinces = Province::all();
+
+        $personalHistory = PersonalHistory::where('staff_id', $id)->with('staff:id,name');
+
+        $personalHistory = $personalHistory
+            ->orderByDesc('id')
+            ->paginate(20);
         
-        $activeDistricts = DB::table('districts')->where('id', $staff->district_id)->pluck('name', 'id')->toArray();
+        $activeDistricts_residence = DB::table('districts')->where('id', $staff->district_id_residence)->pluck('name', 'id')->toArray();
 
-        $activeWards = DB::table('wards')->where('id', $staff->ward_id)->pluck('name', 'id')->toArray();
+        $activeWards_residence = DB::table('wards')->where('id', $staff->ward_id_residence)->pluck('name', 'id')->toArray();
 
-        return view('backend.staff.update', compact('staff', 'departments', 'provinces', 'activeDistricts', 'activeWards'));
+        $activeDistricts_current = DB::table('districts')->where('id', $staff->district_id_current)->pluck('name', 'id')->toArray();
+
+        $activeWards_current = DB::table('wards')->where('id', $staff->ward_id_current)->pluck('name', 'id')->toArray();
+
+        return view('backend.staff.update', compact('staff', 'departments', 'provinces', 'activeDistricts_residence', 'activeWards_residence', 'activeDistricts_current', 'activeWards_current', 'personalHistory'))->with('i', (request()->input('page', 1) -1) *5);;
     }
 
     public function update(StaffRequest $request, $id)
@@ -122,7 +134,12 @@ class StaffController extends Controller
     {
         try {
             $staff = Staff::findOrFail($id);
-            if ($staff) $staff->delete();
+
+            if ($staff) {
+                PersonalHistory::where('staff_id', $id)->delete();
+                $staff->delete();
+            }
+
         } catch (\Exception $exception) {
             toastr()->error('Xóa thất bại!', 'Thông báo', ['timeOut' => 2000]);
             Log::error("ERROR => StaffController@delete => " . $exception->getMessage());

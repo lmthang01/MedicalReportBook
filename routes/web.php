@@ -4,10 +4,12 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\LocationController;
+use App\Http\Controllers\Backend\PersonalHistoryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\StaffController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Models\PersonalHistory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +46,19 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
         Route::post('update/{id}', [DepartmentController::class, 'update'])->name('get_admin.department.update');
 
         Route::get('delete/{id}', [DepartmentController::class, 'delete'])->name('get_admin.department.delete');
+    });
+
+    // Department
+    Route::group(['prefix' => 'model'], function(){
+        // Route::get('', [PersonalHistoryController::class, 'index'])->name('get_admin.model.index');
+
+        // Route::get('create', [PersonalHistoryController::class, 'create'])->name('get_admin.model.create');
+        Route::post('create', [PersonalHistoryController::class, 'store'])->name('get_admin.model.store');
+
+        // Route::get('update/{id}', [PersonalHistoryController::class, 'edit'])->name('get_admin.model.update');
+        Route::post('update/{id}', [PersonalHistoryController::class, 'update'])->name('get_admin.model.update');
+
+        Route::get('delete/{id}', [PersonalHistoryController::class, 'delete'])->name('get_admin.model.delete');
     });
 
     // Staff

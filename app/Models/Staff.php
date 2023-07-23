@@ -19,14 +19,14 @@ class Staff extends Model
      // Location
      public function province()
      {
-         return $this->belongsTo(Province::class, 'province_id');
+         return $this->belongsTo(Province::class, 'province_id_residence');
      }
      public function district()
      {
-         return $this->belongsTo(District::class, 'district_id');
+         return $this->belongsTo(District::class, 'district_id_residence');
      }
      public function ward()
      {
-         return $this->belongsTo(Ward::class, 'ward_id');
+         return $this->belongsTo(Ward::class, 'ward_id_residence');
      }
 }

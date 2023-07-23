@@ -21,7 +21,7 @@
                     <th>STT</th>
                     <th>Tên</th>
                     <th>Mô tả</th>
-                    <th>Ngày tạo</th>
+                    {{-- <th>Ngày tạo</th> --}}
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -31,7 +31,7 @@
                         <td>{{ ++$i }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
-                        <td>{{ $item->created_at }}</td>
+                        {{-- <td>{{ $item->created_at }}</td> --}}
                         <td>
                             <a href="{{ route('get_admin.department.update', $item->id) }}" class="btn btn-info"
                                 style="padding: 5px">Edit</a>
